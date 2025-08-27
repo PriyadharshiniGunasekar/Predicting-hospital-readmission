@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Prediction Result - MedPredict AI{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header text-center">
+        <h4 class="card-title mb-0">
+          <i class="fas fa-chart-pie me-2"></i>Risk Assessment Complete
+        </h4>
+      </div>
+      <div class="card-body text-center">
+
+        <!-- Risk Level Display -->
+        <div class="mb-4">
+          {% if risk == "High" %}
+          <div class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+            <h3 class="alert-heading">HIGH RISK</h3>
+            <p class="mb-0">This patient has a high probability of hospital readmission</p>
+          </div>
+          {% elif risk == "Medium" %}
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-circle fa-2x mb-2"></i>
+            <h3 class="alert-heading">MEDIUM RISK</h3>
+            <p class="mb-0">This patient has a moderate probability of hospital readmission.</p>
+          </div>
+          {% else %}
+          <div class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle fa-2x mb-2"></i>
+            <h3 class="alert-heading">LOW RISK</h3>
+            <p class="mb-0">This patient has a low probability of hospital readmission</p>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Probability Display -->
+        <div class="row mb-4">
+          <div class="col-md-6 mx-auto">
+            <div class="card bg-light">
+              <div class="card-body">
+                <h5>Risk Probability</h5>
+                <h2 class="text-{{ 'danger' if risk == 'High' else 'warning' if risk == 'Medium' else 'success' }}">
+                  {{ (probability * 100)|round(1) }}%
+                </h2>
+                <div class="progress mt-2" style="height: 20px">
+                  <div
+                    class="progress-bar bg-{{ 'danger' if risk == 'High' else 'warning' if risk == 'Medium' else 'success' }}"
+                    style="width: {{ (probability * 100)|round(1) }}%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patient Information -->
+        <div class="row mb-4 text-start">
+          <div class="col-12">
+            <h6 class="text-muted">Patient & Doctor Details</h6>
+            <p><strong>Patient ID:</strong> {{ patient_id }}</p>
+            <p><strong>Doctor:</strong> {{ doctor_name }}</p>
+            <p><strong>Doctor Email:</strong> {{ doctor_email }}</p>
+            <p><strong>Assessment Time:</strong> {{ timestamp }}</p>
+          </div>
+        </div>
+
+        <!-- Clinical Override Information -->
+        {% if override_flag %}
+        <div class="alert alert-warning mb-4 text-start">
+          <h6><i class="fas fa-shield-alt me-1"></i>Clinical Override Applied</h6>
+          <p class="mb-0">The following clinical rules triggered a high-risk classification:</p>
+          <ul class="mt-2 mb-0">
+            {% for reason in reasons %}
+            <li>{{ reason }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <!-- 🧠 Clinical Summary -->
+        <div class="card mt-4 border-primary">
+          <div class="card-header bg-primary text-white">
+            🧠 Clinical Summary
+          </div>
+          <div class="card-body text-start">
+            <p class="mb-0">{{ summary }}</p>
+          </div>
+        </div>
+
+        <!-- Email Status -->
+        <div class="mt-3">
+          {% if email_status == "Sent" %}
+            <span class="badge bg-success"><i class="fas fa-envelope me-1"></i>Email Sent to {{ doctor_email }}</span>
+          {% elif "Failed" in email_status %}
+            <span class="badge bg-danger"><i class="fas fa-times-circle me-1"></i>Email Failed</span>
+          {% else %}
+            <span class="badge bg-secondary"><i class="fas fa-envelope-open me-1"></i>Email Skipped</span>
+          {% endif %}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="btn-group mb-3" role="group">
+              <a href="{{ url_for('download_pdf', patient_id=patient_id, timestamp=timestamp) }}" class="btn btn-gradient">
+                <i class="fas fa-download me-1"></i>Download Report
+              </a>
+              <a href="{{ url_for('predict') }}" class="btn btn-outline-primary">
+                <i class="fas fa-plus me-1"></i>New Prediction
+              </a>
+              <a href="{{ url_for('dashboard') }}" class="btn btn-outline-info">
+                <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="card mt-4">
+          <div class="card-header">
+            <h6 class="mb-0"><i class="fas fa-lightbulb me-1"></i>Clinical Recommendations</h6>
+          </div>
+          <div class="card-body text-start">
+            {% if risk == "High" %}
+            <ul>
+              <li>Telehealth within 48 hours</li>
+              <li>Home nurse call within 72 hours</li>
+              <li>Medication reconciliation & pillbox setup</li>
+              <li>Early labs & vitals review</li>
+              <li>Care coordinator & social support outreach</li>
+            </ul>
+            {% elif risk == "Medium" %}
+            <ul>
+              <li>Phone check 5–7 days post-discharge</li>
+              <li>Pharmacist medication review</li>
+              <li>Dietician counseling for risk factors</li>
+              <li>Automated SMS reminders to patient</li>
+            </ul>
+            {% else %}
+            <ul>
+              <li>Standard discharge education</li>
+              <li>PCP follow-up in 2–4 weeks</li>
+              <li>Self-monitoring log (BP/BG/Weight)</li>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
