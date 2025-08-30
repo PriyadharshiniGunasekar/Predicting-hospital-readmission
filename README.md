@@ -12,4 +12,4 @@ It uses machine learning and patient data to improve healthcare decisions.
 - [@moniad119](https://github.com/moniad119)
 - [@ramanisri25](https://github.com/ramanisri25)
 - [@KeerthanaM56](https://github.com/KeerthanaM56)
-- [@teammate4](https://github.com/teammate4)
+- [@PriyadharshiniGunasekar](https://github.com/PriyadharshiniGunasekar)
