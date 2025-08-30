@@ -1,6 +1,6 @@
 # 🏥 Predicting Hospital Readmission
 
-This project predicts whether a patient is likely to be readmitted to the hospital.  
+This project predicts whether a patient is likely to be readmitted to the hospitals.  
 It uses machine learning and patient data to improve healthcare decisions.
 
 ---
