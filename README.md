@@ -4,7 +4,6 @@ This project predicts whether a patient is likely to be readmitted to the hospit
 It uses machine learning and patient data to improve healthcare decisions.
 
 ---
-
 ## 👨‍💻 Team Contributors
 
 - [@Veenashree-1345](https://github.com/Veenashree-1345)
