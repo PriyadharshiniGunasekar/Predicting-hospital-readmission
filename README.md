@@ -11,5 +11,5 @@ It uses machine learning and patient data to improve healthcare decisions.
 - [@Rithika-04](https://github.com/Rithika-04)
 - [@moniad119](https://github.com/moniad119)
 - [@ramanisri25](https://github.com/ramanisri25)
-- [@teammate3](https://github.com/teammate3)
+- [@KeerthanaM56](https://github.com/KeerthanaM56)
 - [@teammate4](https://github.com/teammate4)
